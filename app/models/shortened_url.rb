@@ -1,5 +1,3 @@
-require 'digest/md5'
-
 class ShortenedUrl < ActiveRecord::Base
 	belongs_to :user
 

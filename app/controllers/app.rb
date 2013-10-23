@@ -1,8 +1,3 @@
-require 'sinatra'
-require 'sinatra/activerecord'
-require 'digest/md5'
-
-
 get '/' do
 	erb :index
 end
