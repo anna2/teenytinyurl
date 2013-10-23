@@ -3,9 +3,9 @@ get '/' do
 end
 
 post '/' do
-	current = ShortenedUrl.create(url: params[:long_url])
-	short_url = ShortenedUrl.encode(current.id)
-	erb :new, locals: {short_url: short_url}
+	@current = ShortenedUrl.create(url: params[:long_url])
+	@short_url = ShortenedUrl.encode(@current.id)
+	erb :new
 end
 
 get '/:shortened' do
