@@ -13,16 +13,13 @@
 ActiveRecord::Schema.define(version: 20131022155824) do
 
   create_table "shortened_urls", force: true do |t|
-    t.string "url"
-  end
-
-  add_index "shortened_urls", ["url"], name: "index_shortened_urls_on_url"
-
-  create_table "shortenedurls", force: true do |t|
     t.string   "url"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "shortened_urls", ["url"], name: "index_shortened_urls_on_url"
 
   create_table "users", force: true do |t|
     t.string "username"

@@ -2,7 +2,8 @@ class CreateShortenedUrls < ActiveRecord::Migration
   def self.up
   	create_table :shortened_urls do |t|
   		t.string :url
-  		t.timestamp
+      t.integer :user_id
+      t.timestamps
   	end
   	add_index :shortened_urls, :url
   end
