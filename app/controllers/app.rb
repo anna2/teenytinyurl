@@ -1,4 +1,5 @@
 get '/' do
+	puts ShortenedUrl.find_by(:user_id => session[:user_id]).created_at
 	erb :index
 end
 
@@ -8,12 +9,6 @@ post '/' do
 	erb :new
 end
 
-get '/:shortened' do
-	id = ShortenedUrl.decode(params[:shortened])
-	entry = ShortenedUrl.find(id)
-	redirect entry.url
-end
-
 get '/login' do
 	erb :login
 end
@@ -21,35 +16,40 @@ end
 post '/login' do
 	#signup
 	if User.exists?(username: params[:new_username])
-		@message = "That username is already in use. Try another!"
-		redirect '/login'
+		@sign_up_message = "That username is already in use. Try another!"
+	elsif params[:new_username].nil?
+		@sign_up_message = "Create a password for your acount."
 	else
-		encoded_password = Digest::MD5.hexidigest(params[:new_password])
+		encoded_password = User.encode(params[:new_password])
 		current_user = User.create(username: params[:new_username], password_hash: encoded_password)
-		@message = "Welcome to Teeny Tiny URL, #{current_user.username}!"
-		#CHANGE AUTHENTICATION STATUS
+		session[:user_id] = current_user.id
+		puts session[:user_id]
 		redirect '/'
 	end
 
 	#login
 	if User.exists?(username: params[:username])
-		current_user = User.find(params[:username])
-		encoded_password = Digest::MD5.hexidigest(params[:password])
-		if current_user.password_hash == encoded_password
-			#Authenticate!?
+		current_user = User.find_by(username: params[:username])
+		if User.encode(params[:password]) == current_user.password_hash
+			session[:user_id] = current_user.id
+			puts session[:user_id]
 			redirect '/'
 		else
-			@message = "That password doesn't match the username."
+			@log_in_message = "That password doesn't match the username."
 		end
 	else
-		@message = "That username doesn't exist yet."
+		@log_in_message = "That username isn't in our records."
 	end
+	erb :login
 end
 
+get '/logout' do
+	session[:user_id] = nil
+	redirect '/'
+end
 
-# helpers do
-# 	def authenticate
-
-# 	end
-
-# end
+get '/:shortened' do
+	id = ShortenedUrl.decode(params[:shortened])
+	entry = ShortenedUrl.find(id)
+	redirect entry.url
+end

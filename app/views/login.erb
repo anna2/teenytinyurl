@@ -2,11 +2,17 @@
 <form action='/login' method='POST'>
 	<input type='text' value='username' name='username'>
 	<input type='text' value= 'password' name='password'>
+	<input type='submit'>
 </form>
+
+<%= @log_in_message %>
 
 <h1>Not yet a user?</h1>
 <h3>Sign up here:</h3>
 <form action='/login' method='POST'>
 	<input type='text' value='Create a username' name='new_username'>
 	<input type='text' value= 'Create a password' name='new_password'>
+	<input type='submit'>
 </form>
+
+<%= @sign_up_message %>
