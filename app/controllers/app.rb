@@ -13,6 +13,11 @@ post '/' do
 	erb :new
 end
 
+delete '/:id' do
+	ShortenedUrl.destroy(params[:id])
+	redirect '/'
+end
+
 get '/login' do
 	erb :login
 end
