@@ -10,6 +10,8 @@ gem 'activesupport'
 gem "activerecord" 
 gem "sinatra-activerecord"
 
+gem 'thin'
+
 gem 'rake'
 
 gem 'shotgun'

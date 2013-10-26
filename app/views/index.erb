@@ -11,8 +11,10 @@
 	<input type='submit'>
 </form>
 
-<% if session[:user_id] != nil %>
+<% if session[:user_id] != nil && ShortenedUrl.find_by(user_id: session[:user_id]) != nil%>
 	<h4>Your recently shortened links:</h4>
-	<%=ShortenedUrl.find_by(:user_id => session[:user_id]).created_at %>
-
+	<% array = ShortenedUrl.where(user_id: session[:user_id]) %>
+	<% array.each do |record| %>
+		<%= "<a href='#{record.url}'>localhost:9393/#{ShortenedUrl.encode(record.id)}</a>" + " leads to: #{record.url}" %><br>
+		<% end %>
 <% end %>

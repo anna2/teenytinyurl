@@ -1,10 +1,14 @@
 get '/' do
-	puts ShortenedUrl.find_by(:user_id => session[:user_id]).created_at
 	erb :index
 end
 
 post '/' do
-	@current = ShortenedUrl.create(url: params[:long_url])
+	if session[:user_id].nil?
+		@current = ShortenedUrl.create(url: params[:long_url])
+	else
+		user = User.find(session[:user_id])
+		@current = user.shortened_urls.create(url: params[:long_url])
+	end
 	@short_url = ShortenedUrl.encode(@current.id)
 	erb :new
 end

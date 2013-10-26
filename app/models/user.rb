@@ -1,5 +1,5 @@
 class User <ActiveRecord::Base
-	has_many :shortened_urls
+	has_many :shortened_urls, dependent: :destroy
 
 
 	def self.retrieve_urls
