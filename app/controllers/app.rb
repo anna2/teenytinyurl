@@ -1,4 +1,5 @@
 get '/' do
+	@name = User.find(session[:user_id]).username unless session[:user_id].nil?
 	erb :index
 end
 
@@ -14,42 +15,44 @@ post '/' do
 end
 
 delete '/:id' do
-	ShortenedUrl.destroy(params[:id])
-	redirect '/'
+	begin
+		ShortenedUrl.destroy(params[:id])
+		redirect '/'
+	rescue ActiveRecord::RecordNotFound
+		redirect '/'
+	end
 end
 
 get '/login' do
 	erb :login
 end
 
-post '/login' do
-	#signup
-	if User.exists?(username: params[:new_username])
-		@sign_up_message = "That username is already in use. Try another!"
-	elsif params[:new_username].nil?
+post '/signup' do
+	begin
+	  current_user = User.signup(params[:new_username], params[:new_password])
+	  session[:user_id] = current_user.id
+	  redirect '/'
+	rescue TakenUsername
+		@sign_up_message = "'#{params[:new_username]}' is already in use. Try a different username."
+		erb :login
+	rescue InvalidNewPassword
 		@sign_up_message = "Create a password for your acount."
-	else
-		encoded_password = User.encode(params[:new_password])
-		current_user = User.create(username: params[:new_username], password_hash: encoded_password)
-		session[:user_id] = current_user.id
-		puts session[:user_id]
-		redirect '/'
+		erb :login
 	end
+end
 
-	#login
-	if User.exists?(username: params[:username])
-		current_user = User.find_by(username: params[:username])
-		if User.encode(params[:password]) == current_user.password_hash
-			session[:user_id] = current_user.id
-			puts session[:user_id]
-			redirect '/'
-		else
-			@log_in_message = "That password doesn't match the username."
-		end
-	else
-		@log_in_message = "That username isn't in our records."
+post '/login' do
+	begin
+		current_user = User.login(params[:username], params[:password])
+		session[:user_id] = current_user.id
+		redirect '/'
+	rescue NonexistentUsername
+		@log_in_message = "'#{params[:username]}' isn't in our records."
+		erb :login
+	rescue NonmatchingPassword
+		@log_in_message = "That password doesn't match the username '#{params[:username]}'."
+		erb :login
 	end
-	erb :login
 end
 
 get '/logout' do
@@ -58,7 +61,6 @@ get '/logout' do
 end
 
 get '/:shortened' do
-	id = ShortenedUrl.decode(params[:shortened])
-	entry = ShortenedUrl.find(id)
+	entry = ShortenedUrl.get_from_hex(params[:shortened])
 	redirect entry.url
 end
