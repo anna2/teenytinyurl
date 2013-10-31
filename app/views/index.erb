@@ -11,10 +11,9 @@
 	<input type='submit'>
 </form>
 
-<% if session[:user_id] != nil && ShortenedUrl.find_by(user_id: session[:user_id]) != nil%>
+<% if session[:user_id] != nil && @array.size != 0%>
 	<h4>Your recently shortened links:</h4>
-	<% array = ShortenedUrl.where(user_id: session[:user_id]) %>
-	<% array.each do |record| %>
+	<% @array.each do |record| %>
 		<form style="display: inline" action='/<%=record.id%>' method="POST">
 			<input type='hidden' name='_method' value='DELETE'>
 			<input type='submit' value="Delete">

@@ -1,5 +1,6 @@
 get '/' do
 	@name = User.find(session[:user_id]).username unless session[:user_id].nil?
+	@array = ShortenedUrl.where(user_id: session[:user_id]) unless session[:user_id].nil?
 	erb :index
 end
 
