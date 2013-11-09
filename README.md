@@ -1,7 +1,7 @@
 Teeny Tiny URL
 =========
 
-Teeny Tiny URL is a bitly clone that lets you shorten URLS.  Current features: create a URL without logging in or log in to create URLs and manage your previously shortened URLs. I built this to practice configuring a Sqlite database, querying with Active Record and SQL, and implementing a user authetication system from scratch.
+Teeny Tiny URL is a bitly clone that lets you shorten URLS.  Current features: create a shortened URL without logging in or log in to create shortenend URLs and manage your previously shortened URLs. I built this to practice configuring a Sqlite database, querying with Active Record and SQL, and implementing a user authetication system from scratch.
 
 ##How to use it
 
