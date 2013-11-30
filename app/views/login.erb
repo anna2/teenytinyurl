@@ -1,18 +1,21 @@
-<h1>Existing Users:</h1>
+<div class="col-md-6">
+<h1>Existing Users:</h1><br>
 <form action='/login' method='POST'>
 	<input type='text' value='username' name='username'>
-	<input type='text' value= 'password' name='password'>
+	<input type='text' value= 'password' name='password'><br><br>
 	<input type='submit'>
-</form>
+</form><br>
 
-<%= @log_in_message %>
+<p class="text-warning"><%= @log_in_message %></p>
+</div>
 
-<h1>Not yet a user?</h1>
-<h3>Sign up here:</h3>
+<div class="col-md-6">
+<h1>Not yet a user?</h1><br>
 <form action='/signup' method='POST'>
 	<input type='text' value='Create a username' name='new_username'>
-	<input type='text' value= 'Create a password' name='new_password'>
+	<input type='text' value= 'Create a password' name='new_password'><br><br>
 	<input type='submit'>
-</form>
+</form><br>
 
-<%= @sign_up_message %>
+<p class="text-warning"><%= @sign_up_message %></p>
+</div>

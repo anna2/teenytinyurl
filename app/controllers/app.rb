@@ -33,11 +33,14 @@ post '/signup' do
 	  current_user = User.signup(params[:new_username], params[:new_password])
 	  session[:user_id] = current_user.id
 	  redirect '/'
-	rescue TakenUsername
+	rescue ExistingUsername
 		@sign_up_message = "'#{params[:new_username]}' is already in use. Try a different username."
 		erb :login
+	rescue InvalidUsername
+		@sign_up_message = "Usernames must have between 2 and 30 characters."
+		erb :login
 	rescue InvalidNewPassword
-		@sign_up_message = "Create a password for your acount."
+		@sign_up_message = "Create a password for your account."
 		erb :login
 	end
 end

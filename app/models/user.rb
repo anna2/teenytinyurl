@@ -1,6 +1,7 @@
 class User <ActiveRecord::Base
 	has_many :shortened_urls, dependent: :destroy
 	validates :username, uniqueness: true
+	validates :username, length: { in: 2..30 }
 
 	def self.encode(password)
 		Digest::MD5.hexdigest(password)
@@ -8,26 +9,33 @@ class User <ActiveRecord::Base
 
 	def self.signup(username, password)
 		if User.exists?(username: username)
-			raise TakenUsername
-		elsif password.empty?
+			raise ExistingUsername
+		elsif (username.size < 2) || (username.size > 30)
+			raise InvalidUsername
+		elsif password.empty? || password.nil?
 			raise InvalidNewPassword
+		else
+			encoded_password = encode(password)
+			User.create(username: username, password_hash: encoded_password)
 		end
-		encoded_password = encode(password)
-		User.create(username: username, password_hash: encoded_password)
 	end
 
 	def self.login(username, password)
-		if User.exists?(username: username) == false
+		if User.exists?(username: username) == nil
 			raise NonexistentUsername
 		elsif User.encode(password) != User.find_by(username: username).password_hash
 			raise NonmatchingPassword
+		else
+			User.find_by(username: username)
 		end
-		User.find_by(username: username)
 	end
 	
 end
 
-class TakenUsername < StandardError
+class ExistingUsername < StandardError
+end
+
+class InvalidUsername < StandardError
 end
 
 class InvalidNewPassword < StandardError

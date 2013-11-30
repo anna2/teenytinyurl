@@ -1,0 +1,15 @@
+<header>
+  <div id="main" class="navbar navbar-inverse">
+    <div class="navbar-header">
+      <a href='/'><h3 id="logo">Teeny Tiny URL</h3></a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <% if session[:user_id].nil? %>
+        <li class="nav"><a href='/login'>Optional Login</a></li>
+      <% else %>
+        <li class="nav"><a href='/logout'>Logout</a></li>
+      <% end %>
+    </ul>
+  </div>
+</header>
+

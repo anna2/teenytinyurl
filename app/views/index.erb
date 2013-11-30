@@ -1,8 +1,9 @@
-<% if session[:user_id].nil? %>
-	<a href='/login'><h3>Optional Login</h3></a>
-<%else%>
+<div class="col-md-8">
+<% if session[:user_id] %>
 	<h3>Welcome to Teeny Tiny URL, <%= @name %>!</h3>
-	<a href='/logout'>Logout</a>
+<% else %>
+	<h3>Welcome to Teeny Tiny URL!</h3>
+	<p> Use the form below to submit long URLs for shortening.</p>
 <% end %>
 
 
@@ -10,8 +11,10 @@
 	<input type='text' name='long_url' value='http://'>
 	<input type='submit'>
 </form>
+</div>
 
-<% if session[:user_id] != nil && @array.size != 0%>
+<div class="col-md-4 pull-left">
+<% if session[:user_id] && @array.size > 0%>
 	<h4>Your recently shortened links:</h4>
 	<% @array.each do |record| %>
 		<form style="display: inline" action='/<%=record.id%>' method="POST">
@@ -21,3 +24,4 @@
 		<%= "<a href='#{record.url}'>localhost:9393/#{ShortenedUrl.encode(record.id)}</a>" + " leads to: #{record.url}" %><br>
 	<% end %>
 <% end %>
+</div>

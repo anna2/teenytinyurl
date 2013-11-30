@@ -1,0 +1,17 @@
+body {
+  background-image:url('/img/dimension/dimension.png');
+}
+
+#main {
+  padding: 0px 20px;
+}
+
+#logo {
+  color: #fff;
+  padding-top: 3px;
+  font-weight: bold;
+}
+
+#logo:hover {
+  text-decoration: none;
+}
