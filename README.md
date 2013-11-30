@@ -7,7 +7,7 @@ Teeny Tiny URL is a bitly clone that lets you shorten URLS.  Current features: c
 
 ##How to use it
 
-Clone the repository. From inside the root file, run ```shotgun``` from the command line, and navigate to localhost:9393.
+Clone the repository. From inside the root directory, run ```shotgun``` from the command line, and navigate to localhost:9393.
 
 ##To do
 
